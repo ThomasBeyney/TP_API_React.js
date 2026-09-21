@@ -1,38 +1,32 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
+import './App.css'
 
 type Character = {
-  id: number;
-  name: string;
-  image: string;
-  status: string;
-  species: string;
-  gender: string;
-  origin: { name: string };
-  location: { name: string };
-};
+  id: number
+  name: string
+  image: string
+  status: string
+  species: string
+  gender: string
+  origin: { name: string }
+  location: { name: string }
+}
 
-type CharacterList = {
-  results: Character[];
-};
-
-export default function Home() {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null);
-  const [loading, setLoading] = useState(true);
+function App() {
+  const [characters, setCharacters] = useState<Character[]>([])
+  const [selectedCharacter, setSelectedCharacter] = useState<Character | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch("https://rickandmortyapi.com/api/character?page=1")
+    fetch('https://rickandmortyapi.com/api/character')
       .then((response) => response.json())
-      .then((data: CharacterList) => setCharacters(data.results))
-      .finally(() => setLoading(false));
-  }, []);
+      .then((data: { results: Character[] }) => setCharacters(data.results))
+      .finally(() => setLoading(false))
+  }, [])
 
-  function loadCharacterDetails(id: number) {
-    fetch(`https://rickandmortyapi.com/api/character/${id}`)
-      .then((response) => response.json())
-      .then((data: Character) => setSelectedCharacter(data));
+  function loadCharacterDetails(characterId: number) {
+    const character = characters.find(({ id }) => id === characterId)
+    setSelectedCharacter(character ?? null)
   }
 
   return (
@@ -67,3 +61,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default App
