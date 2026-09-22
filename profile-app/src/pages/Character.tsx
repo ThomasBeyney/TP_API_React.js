@@ -7,6 +7,8 @@ type CharacterProps = {
 }
 
 function Character({ character, onBack }: CharacterProps) {
+  const statusClass = `status-${character.status.toLowerCase()}`
+
   return (
     <main className="character-page">
       <header className="main-header">
@@ -18,7 +20,7 @@ function Character({ character, onBack }: CharacterProps) {
           <img src={character.image} alt={character.name} width={300} />
           <div>
             <h1>{character.name}</h1>
-            <span className="status-badge">{character.status}</span>
+            <span className={`status-badge ${statusClass}`}>{character.status}</span>
           </div>
         </div>
         <dl className="character-details">
