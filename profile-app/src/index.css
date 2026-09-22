@@ -67,13 +67,17 @@ h1 {
   width: min(1180px, 100%);
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(170px, 210px));
+  justify-content: center;
+  justify-items: center;
+  margin: 0 auto;
   gap: 20px;
   padding: 32px 24px 48px;
 }
 
 .character-card {
   display: flex;
+  width: 100%;
   min-width: 0;
   flex-direction: column;
   align-items: center;
@@ -105,6 +109,7 @@ h1 {
   display: block;
   width: 100%;
   max-width: 150px;
+  margin: 0 auto;
   aspect-ratio: 1;
   border-radius: 8px;
   object-fit: cover;
