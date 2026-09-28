@@ -37,6 +37,16 @@ h1 {
   box-shadow: inset 0 -5px 0 var(--lime);
 }
 
+.main-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.nav-link { padding: 8px 12px; color: var(--deep-space); font-weight: 700; text-decoration: none; }
+.nav-link:hover, .nav-link.active { background: var(--deep-space); color: var(--lime); }
+.app-content { width: min(1180px, 100%); box-sizing: border-box; margin: 0 auto; padding: 24px; }
+.message { padding: 24px; text-align: center; }
+.error { color: #ff8585; }
+.favorite-button { padding: 9px 12px; border: 1px solid var(--lime); border-radius: 6px; background: transparent; color: var(--lime); cursor: pointer; font: inherit; }
+.character-card a { color: inherit; text-decoration: none; }
+.character-card .favorite-button { margin-top: 10px; }
+
 .second-header {
   width: 100%;
   padding: 6px 24px;
@@ -210,6 +220,7 @@ h1 {
 
 @media (max-width: 560px) {
   .second-header { flex-direction: column; align-items: stretch; gap: 8px; }
+  .main-nav { gap: 2px; }
   .search-group { width: 100%; }
   .filter-fields { grid-template-columns: repeat(2, 1fr); }
   .character-profile { padding: 18px; }

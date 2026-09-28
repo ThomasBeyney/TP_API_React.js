@@ -1,10 +1,14 @@
 export type CharacterData = {
   id: number
-  name: string
-  image: string
-  status: string
-  species: string
-  gender: string
-  origin: { name: string }
-  location: { name: string }
+  name?: string | null
+  image?: string | null
+  status?: string | null
+  species?: string | null
+  gender?: string | null
+  origin?: { name?: string | null } | null
+  location?: { name?: string | null } | null
+}
+
+export type CharacterResponse = {
+  results?: CharacterData[]
 }

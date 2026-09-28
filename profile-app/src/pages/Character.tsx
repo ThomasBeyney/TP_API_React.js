@@ -3,31 +3,31 @@ import logo from '../assets/Rick_and_Morty_logo.png'
 
 type CharacterProps = {
   character: CharacterData
-  onBack: () => void
+  isFavorite: boolean
+  onToggleFavorite: () => void
 }
 
-function Character({ character, onBack }: CharacterProps) {
-  const statusClass = `status-${character.status.toLowerCase()}`
+function Character({ character, isFavorite, onToggleFavorite }: CharacterProps) {
+  const statusClass = `status-${(character.status ?? 'unknown').toLowerCase()}`
 
   return (
     <main className="character-page">
-      <header className="main-header">
-        <h2><img className="site-logo" src={logo} alt="Rick and Morty" /></h2>
-      </header>
       <section className="character-profile">
-        <button className="back-button" onClick={onBack} type="button">Retour</button>
         <div className="character-intro">
-          <img src={character.image} alt={character.name} width={300} />
+          {character.image && <img src={character.image} alt={character.name ?? 'Personnage'} width={300} />}
           <div>
-            <h1>{character.name}</h1>
-            <span className={`status-badge ${statusClass}`}>{character.status}</span>
+            <h1>{character.name ?? 'Sans nom'}</h1>
+            <span className={`status-badge ${statusClass}`}>{character.status ?? 'Inconnu'}</span>
           </div>
         </div>
+        <button className="back-button" onClick={onToggleFavorite} type="button">
+          {isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+        </button>
         <dl className="character-details">
-          <div><dt>Espèce</dt><dd>{character.species}</dd></div>
-          <div><dt>Genre</dt><dd>{character.gender}</dd></div>
-          <div><dt>Origine</dt><dd>{character.origin.name}</dd></div>
-          <div><dt>Localisation</dt><dd>{character.location.name}</dd></div>
+          <div><dt>Espèce</dt><dd>{character.species ?? 'Inconnue'}</dd></div>
+          <div><dt>Genre</dt><dd>{character.gender ?? 'Inconnu'}</dd></div>
+          <div><dt>Origine</dt><dd>{character.origin?.name ?? 'Inconnue'}</dd></div>
+          <div><dt>Localisation</dt><dd>{character.location?.name ?? 'Inconnue'}</dd></div>
         </dl>
       </section>
     </main>
