@@ -1,5 +1,4 @@
 import type { CharacterData } from '../types/character'
-import logo from '../assets/Rick_and_Morty_logo.png'
 
 type CharacterProps = {
   character: CharacterData
