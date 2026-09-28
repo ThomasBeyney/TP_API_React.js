@@ -10,5 +10,8 @@ export type CharacterData = {
 }
 
 export type CharacterResponse = {
+  info?: {
+    next?: string | null
+  }
   results?: CharacterData[]
 }
