@@ -1,9 +1,9 @@
 import { useFavorites } from '../hooks/useFavorites'
-import { useCharactersByIds } from '../hooks/useCharactersByIds'
+import { useCharacters } from '../hooks/useCharacters'
 import Character from './Character'
 
 function CharacterPage({ id }: { id: number }) {
-  const { characters, loading, error } = useCharactersByIds([id])
+  const { characters, loading, error } = useCharacters()
   const { favorites, toggleFavorite } = useFavorites()
   const character = characters.find((item) => item.id === id)
 
