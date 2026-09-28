@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { FavoritesProvider } from './context/FavoritesContext'
+import FavoritesProvider from './context/FavoritesContext'
 import NavigationProvider from './routing/Navigation'
 import { useNavigation } from './routing/NavigationContext'
 import SiteHeader from './components/SiteHeader'

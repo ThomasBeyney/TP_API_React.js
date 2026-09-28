@@ -1,49 +1,62 @@
 import { useEffect, useState } from 'react'
 import type { CharacterData, CharacterResponse } from '../types/character'
 
-export function useCharacters() {
-  const [characters, setCharacters] = useState<CharacterData[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+type PageResult = {
+  key: string
+  characters: CharacterData[]
+  pages: number
+  next: string | null
+  error: string | null
+}
+
+export function useCharacters(page = 1) {
+  const apiUrl = import.meta.env.VITE_API_URL
+  const requestKey = `${apiUrl ?? ''}|${page}`
+  const [result, setResult] = useState<PageResult | null>(null)
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL
+    if (!apiUrl) return
+
     const controller = new AbortController()
+    const url = new URL(apiUrl)
+    url.searchParams.set('page', String(page))
 
-    if (!apiUrl) {
-      setError('Configure VITE_API_URL dans le fichier .env.local.')
-      setLoading(false)
-      return () => controller.abort()
-    }
+    fetch(url, { signal: controller.signal })
+      .then(async (response) => {
+        if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`)
+        const data = await response.json() as CharacterResponse
+        if (!Array.isArray(data.results)) throw new Error('La réponse API est invalide.')
 
-    async function loadCharacters() {
-      const allCharacters: CharacterData[] = []
-      let nextUrl: string | null = apiUrl
-
-      try {
-        while (nextUrl) {
-          const response = await fetch(nextUrl, { signal: controller.signal })
-          if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`)
-
-          const data = await response.json() as CharacterResponse
-          if (!Array.isArray(data.results)) throw new Error('La réponse API est invalide.')
-
-          allCharacters.push(...data.results)
-          nextUrl = data.info?.next ?? null
+        setResult({
+          key: requestKey,
+          characters: data.results,
+          pages: data.info?.pages ?? 1,
+          next: data.info?.next ?? null,
+          error: null,
+        })
+      })
+      .catch((reason: unknown) => {
+        if (!controller.signal.aborted) {
+          setResult({
+            key: requestKey,
+            characters: [],
+            pages: 1,
+            next: null,
+            error: reason instanceof Error ? reason.message : 'Erreur réseau inconnue.',
+          })
         }
-
-        setCharacters(allCharacters)
-      } catch (reason: unknown) {
-        if (reason instanceof Error && reason.name !== 'AbortError') setError(reason.message)
-      } finally {
-        if (!controller.signal.aborted) setLoading(false)
-      }
-    }
-
-    void loadCharacters()
+      })
 
     return () => controller.abort()
-  }, [])
+  }, [apiUrl, page, requestKey])
 
-  return { characters, loading, error }
+  const currentResult = result?.key === requestKey ? result : null
+
+  return {
+    characters: currentResult?.characters ?? [],
+    pages: currentResult?.pages ?? null,
+    hasNextPage: Boolean(currentResult?.next),
+    loading: Boolean(apiUrl) && !currentResult,
+    error: apiUrl ? currentResult?.error ?? null : 'Configure VITE_API_URL dans les variables d’environnement.',
+  }
 }

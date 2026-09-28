@@ -65,6 +65,9 @@ h1 {
 .search-input { display: block; width: 100%; box-sizing: border-box; padding: 11px 14px; border: 2px solid var(--turquoise); border-radius: 10px; background: var(--panel); color: var(--ink); font: inherit; }
 .search-input:focus { outline: 3px solid var(--yellow); outline-offset: 2px; }
 .no-results { grid-column: 1 / -1; color: var(--yellow); text-align: center; }
+.pagination { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 0 24px 32px; }
+.pagination button { padding: 8px 12px; border: 1px solid var(--turquoise); border-radius: 6px; background: var(--panel); color: var(--ink); cursor: pointer; font: inherit; }
+.pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .filters-panel { width: min(1180px, 100%); box-sizing: border-box; padding: 20px 24px 0; }
 .filter-fields { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }

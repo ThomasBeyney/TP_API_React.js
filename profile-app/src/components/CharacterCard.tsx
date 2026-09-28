@@ -1,4 +1,4 @@
-import { useFavorites } from '../context/FavoritesContext'
+import { useFavorites } from '../hooks/useFavorites'
 import RouterLink from './RouterLink'
 import type { CharacterData } from '../types/character'
 

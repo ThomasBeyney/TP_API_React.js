@@ -12,7 +12,8 @@ const emptyFilters: CharacterFilters = {
 }
 
 function HomePage() {
-  const { characters, loading, error } = useCharacters()
+  const [page, setPage] = useState(1)
+  const { characters, pages, hasNextPage, loading, error } = useCharacters(page)
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState<CharacterFilters>(emptyFilters)
 
@@ -55,6 +56,11 @@ function HomePage() {
     {loading && <p className="message">Chargement...</p>}
     {error && <p className="message error" role="alert">{error}</p>}
     {!loading && !error && <CharacterGrid characters={filteredCharacters} />}
+    {!loading && !error && pages !== null && <nav className="pagination" aria-label="Pagination des personnages">
+      <button disabled={page <= 1} onClick={() => setPage((currentPage) => currentPage - 1)} type="button">Précédent</button>
+      <span>Page {page} / {pages}</span>
+      <button disabled={!hasNextPage} onClick={() => setPage((currentPage) => currentPage + 1)} type="button">Suivant</button>
+    </nav>}
   </main>
 }
 

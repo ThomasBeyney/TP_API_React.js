@@ -1,9 +1,9 @@
-import { useFavorites } from '../context/FavoritesContext'
-import { useCharacters } from '../hooks/useCharacters'
+import { useFavorites } from '../hooks/useFavorites'
+import { useCharactersByIds } from '../hooks/useCharactersByIds'
 import Character from './Character'
 
 function CharacterPage({ id }: { id: number }) {
-  const { characters, loading, error } = useCharacters()
+  const { characters, loading, error } = useCharactersByIds([id])
   const { favorites, toggleFavorite } = useFavorites()
   const character = characters.find((item) => item.id === id)
 
